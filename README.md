@@ -7,4 +7,5 @@ Al abrir index.html cada tecla que es precionada generará un circulo de color e
 
 ### Librerías usadas
 [HowlerJS](https://howlerjs.com/)
+
 [PaperJS](http://paperjs.org/)
