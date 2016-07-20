@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Circle Sound</title>
+    <link rel="stylesheet" href="assets/css/estilos.css">
+    <script type="text/javascript" src="assets/js/lib/paper-full.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/1.1.29/howler.min.js"></script>
+    <!-- archivo con la creacion del objeto con todas las teclas y sus caracteristicas -->
+    <script type="text/javascript" src="assets/js/datosTecla.js"></script>
+
+    <!-- Script de papaerJS -->
+    <script type="text/paperscript" canvas="myCanvas">
+        // array de circulos
+        var circulos = [];
+
+        // crea un nuevo circulo cada vez que se presiona una tecla
+        function onKeyDown(evento) {
+            // si la tecla presinoada no esta en el objeto de datosTecla no hace nada.
+            if (datosTecla[evento.key]) {
+                var puntoMax = new Point(view.size.width, view.size.height);
+                var puntoAleatoreo = Point.random();
+                var punto = puntoMax * puntoAleatoreo;
+                var circuloNuevo = new Path.Circle(punto, 500);
+                circuloNuevo.fillColor = datosTecla[evento.key].color;
+                datosTecla[evento.key].sonido.play();
+                circulos.push(circuloNuevo);
+            }
+        }
+
+        // animamos los circulos
+        function onFrame () {
+            for (var i = 0; i < circulos.length; i++) {
+                circulos[i].fillColor.hue += 1;
+                circulos[i].scale(.9);
+                // eliminamos el circulo una vez que se achico lo suficiente
+                if (circulos[i].bounds.width < 0.1) {
+                    circulos[i].remove();
+                    circulos.slice(i, 1);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="myCanvas" resize></canvas>
+</body>
+</html>
